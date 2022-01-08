@@ -52,7 +52,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source\EOutputType.cs" />
+    <Compile Include="Enums\EDegreeDistributionType.cs" />
+    <Compile Include="Enums\EFileType.cs" />
+    <Compile Include="Enums\EOutputType.cs" />
     <Compile Include="Forms\AnalyzeForm.cs">
       <SubType>Form</SubType>
     </Compile>

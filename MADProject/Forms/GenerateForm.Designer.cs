@@ -40,6 +40,9 @@ namespace MADProject
             this.PathTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.ErrorLabel = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.FileRadioButt = new System.Windows.Forms.RadioButton();
+            this.ConsoleRadioButt = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // label1
@@ -78,7 +81,7 @@ namespace MADProject
             // 
             // ChangePathButt
             // 
-            this.ChangePathButt.Location = new System.Drawing.Point(88, 115);
+            this.ChangePathButt.Location = new System.Drawing.Point(177, 115);
             this.ChangePathButt.Name = "ChangePathButt";
             this.ChangePathButt.Size = new System.Drawing.Size(95, 23);
             this.ChangePathButt.TabIndex = 4;
@@ -90,7 +93,7 @@ namespace MADProject
             // 
             this.RunButt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.RunButt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.RunButt.Location = new System.Drawing.Point(197, 115);
+            this.RunButt.Location = new System.Drawing.Point(197, 144);
             this.RunButt.Name = "RunButt";
             this.RunButt.Size = new System.Drawing.Size(75, 39);
             this.RunButt.TabIndex = 5;
@@ -143,18 +146,54 @@ namespace MADProject
             // 
             this.ErrorLabel.AutoSize = true;
             this.ErrorLabel.ForeColor = System.Drawing.Color.Red;
-            this.ErrorLabel.Location = new System.Drawing.Point(12, 141);
+            this.ErrorLabel.Location = new System.Drawing.Point(12, 170);
             this.ErrorLabel.Name = "ErrorLabel";
             this.ErrorLabel.Size = new System.Drawing.Size(171, 13);
             this.ErrorLabel.TabIndex = 10;
             this.ErrorLabel.Text = "This type is currently not supported";
             this.ErrorLabel.Visible = false;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 120);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(62, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Output type";
+            // 
+            // FileRadioButt
+            // 
+            this.FileRadioButt.AutoSize = true;
+            this.FileRadioButt.Checked = true;
+            this.FileRadioButt.Location = new System.Drawing.Point(88, 120);
+            this.FileRadioButt.Name = "FileRadioButt";
+            this.FileRadioButt.Size = new System.Drawing.Size(41, 17);
+            this.FileRadioButt.TabIndex = 12;
+            this.FileRadioButt.TabStop = true;
+            this.FileRadioButt.Text = "File";
+            this.FileRadioButt.UseVisualStyleBackColor = true;
+            this.FileRadioButt.CheckedChanged += new System.EventHandler(this.FileRadioButt_CheckedChanged);
+            // 
+            // ConsoleRadioButt
+            // 
+            this.ConsoleRadioButt.AutoSize = true;
+            this.ConsoleRadioButt.Location = new System.Drawing.Point(88, 143);
+            this.ConsoleRadioButt.Name = "ConsoleRadioButt";
+            this.ConsoleRadioButt.Size = new System.Drawing.Size(63, 17);
+            this.ConsoleRadioButt.TabIndex = 13;
+            this.ConsoleRadioButt.Text = "Console";
+            this.ConsoleRadioButt.UseVisualStyleBackColor = true;
+            this.ConsoleRadioButt.CheckedChanged += new System.EventHandler(this.ConsoleRadioButt_CheckedChanged);
+            // 
             // GenerateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 161);
+            this.ClientSize = new System.Drawing.Size(284, 193);
+            this.Controls.Add(this.ConsoleRadioButt);
+            this.Controls.Add(this.FileRadioButt);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.ErrorLabel);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.PathTextBox);
@@ -191,5 +230,8 @@ namespace MADProject
         private System.Windows.Forms.TextBox PathTextBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label ErrorLabel;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.RadioButton FileRadioButt;
+        private System.Windows.Forms.RadioButton ConsoleRadioButt;
     }
 }

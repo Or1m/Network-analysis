@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using MADProject.Enums;
+using System.IO;
 using System.Windows.Forms;
 
 namespace MADProject
@@ -7,13 +8,8 @@ namespace MADProject
     {
         private const string textFileFormat = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
         private const string csvFileFormat  = "CSV file (*.csv)|*.csv| All Files (*.*)|*.*";
-        public enum FileType
-        {
-            textfile,
-            csv
-        }
-
-        public static void OnChangePath(TextBox target, string name, string extension, FileType fileType)
+       
+        public static void OnChangePath(TextBox target, string name, string extension, EFileType fileType)
         {
             SaveFileDialog dialog = new SaveFileDialog()
             {
@@ -22,7 +18,7 @@ namespace MADProject
                 DefaultExt = extension,
                 AddExtension = true,
                 InitialDirectory = Directory.GetCurrentDirectory(),
-                Filter = fileType == FileType.csv ? csvFileFormat : textFileFormat,
+                Filter = fileType == EFileType.csv ? csvFileFormat : textFileFormat,
                 FilterIndex = 2
             };
 

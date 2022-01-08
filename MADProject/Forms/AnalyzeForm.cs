@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using MADProject.Enums;
+using System.IO;
 using System.Windows.Forms;
 
 namespace MADProject
@@ -20,12 +21,12 @@ namespace MADProject
 
         private void NetPathButt_Click(object sender, System.EventArgs e)
         {
-            Utils.OnChangePath(NetPathTextBox, "network", "csv", Utils.FileType.csv);
+            Utils.OnChangePath(NetPathTextBox, "network", "csv", EFileType.csv);
         }
 
         private void AnalysisPathButt_Click(object sender, System.EventArgs e)
         {
-            Utils.OnChangePath(AnalysisPathTextBox, "analysis", "txt", Utils.FileType.textfile);
+            Utils.OnChangePath(AnalysisPathTextBox, "analysis", "txt", EFileType.textfile);
         }
 
         private void AnalyzeButt_Click(object sender, System.EventArgs e)
@@ -37,8 +38,16 @@ namespace MADProject
                 return;
             }
 
+            EDegreeDistributionType type = EDegreeDistributionType.percentage;
+
+            if (NodesRadioButt.Checked)
+                type = EDegreeDistributionType.nodes;
+            else if (BothRadioButt.Checked)
+                type = EDegreeDistributionType.both;
+
             NetworkAnalyzer analyzer = NetworkAnalyzer.Instance;
             analyzer.Analyze(source);
+            analyzer.PrintToConsole(type);
         }
     }
 }

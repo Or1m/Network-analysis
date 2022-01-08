@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using MADProject.Enums;
+using System.IO;
 using System.Windows.Forms;
 
 namespace MADProject
@@ -37,7 +38,7 @@ namespace MADProject
         
         private void ChangePathButt_Click(object sender, System.EventArgs e)
         {
-            Utils.OnChangePath(PathTextBox, "network", "csv", Utils.FileType.csv);
+            Utils.OnChangePath(PathTextBox, "network", "csv", EFileType.csv);
         }
         private void RunButt_Click(object sender, System.EventArgs e)
         {
@@ -47,10 +48,22 @@ namespace MADProject
             NetworkGenerator generator = NetworkGenerator.Instance;
             generator.Generate(numOfNodes, numOfNewEdgesPerNode);
             
-            //generator.PrintToConsole();
-            generator.PrintToFile(PathTextBox.Text);
+            if (FileRadioButt.Checked)
+                generator.PrintToFile(PathTextBox.Text);
+            else
+                generator.PrintToConsole();
+
 
             Close();
+        }
+
+        private void FileRadioButt_CheckedChanged(object sender, System.EventArgs e)
+        {
+            PathTextBox.Enabled = true;
+        }
+        private void ConsoleRadioButt_CheckedChanged(object sender, System.EventArgs e)
+        {
+            PathTextBox.Enabled = false;
         }
     }
 }

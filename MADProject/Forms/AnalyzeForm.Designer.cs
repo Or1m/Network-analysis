@@ -36,6 +36,11 @@ namespace MADProject
             this.AnalyzeButt = new System.Windows.Forms.Button();
             this.NetPathButt = new System.Windows.Forms.Button();
             this.AnalysisPathButt = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.PercentageRadioButt = new System.Windows.Forms.RadioButton();
+            this.NodesRadioButt = new System.Windows.Forms.RadioButton();
+            this.BothRadioButt = new System.Windows.Forms.RadioButton();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -78,7 +83,7 @@ namespace MADProject
             // 
             this.AnalyzeButt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.AnalyzeButt.ForeColor = System.Drawing.Color.Red;
-            this.AnalyzeButt.Location = new System.Drawing.Point(99, 129);
+            this.AnalyzeButt.Location = new System.Drawing.Point(100, 219);
             this.AnalyzeButt.Name = "AnalyzeButt";
             this.AnalyzeButt.Size = new System.Drawing.Size(173, 27);
             this.AnalyzeButt.TabIndex = 4;
@@ -106,11 +111,65 @@ namespace MADProject
             this.AnalysisPathButt.UseVisualStyleBackColor = true;
             this.AnalysisPathButt.Click += new System.EventHandler(this.AnalysisPathButt_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 142);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(115, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Degree distribution unit";
+            // 
+            // PercentageRadioButt
+            // 
+            this.PercentageRadioButt.AutoSize = true;
+            this.PercentageRadioButt.Checked = true;
+            this.PercentageRadioButt.Location = new System.Drawing.Point(133, 142);
+            this.PercentageRadioButt.Name = "PercentageRadioButt";
+            this.PercentageRadioButt.Size = new System.Drawing.Size(80, 17);
+            this.PercentageRadioButt.TabIndex = 8;
+            this.PercentageRadioButt.TabStop = true;
+            this.PercentageRadioButt.Text = "Percentage";
+            this.PercentageRadioButt.UseVisualStyleBackColor = true;
+            // 
+            // NodesRadioButt
+            // 
+            this.NodesRadioButt.AutoSize = true;
+            this.NodesRadioButt.Location = new System.Drawing.Point(133, 165);
+            this.NodesRadioButt.Name = "NodesRadioButt";
+            this.NodesRadioButt.Size = new System.Drawing.Size(108, 17);
+            this.NodesRadioButt.TabIndex = 9;
+            this.NodesRadioButt.Text = "Number of Nodes";
+            this.NodesRadioButt.UseVisualStyleBackColor = true;
+            // 
+            // BothRadioButt
+            // 
+            this.BothRadioButt.AutoSize = true;
+            this.BothRadioButt.Location = new System.Drawing.Point(133, 188);
+            this.BothRadioButt.Name = "BothRadioButt";
+            this.BothRadioButt.Size = new System.Drawing.Size(47, 17);
+            this.BothRadioButt.TabIndex = 10;
+            this.BothRadioButt.Text = "Both";
+            this.BothRadioButt.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label4.Location = new System.Drawing.Point(-13, 128);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(315, 3);
+            this.label4.TabIndex = 11;
+            // 
             // AnalyzeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 161);
+            this.ClientSize = new System.Drawing.Size(284, 258);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.BothRadioButt);
+            this.Controls.Add(this.NodesRadioButt);
+            this.Controls.Add(this.PercentageRadioButt);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.AnalysisPathButt);
             this.Controls.Add(this.NetPathButt);
             this.Controls.Add(this.AnalyzeButt);
@@ -138,5 +197,10 @@ namespace MADProject
         private System.Windows.Forms.Button AnalyzeButt;
         private System.Windows.Forms.Button NetPathButt;
         private System.Windows.Forms.Button AnalysisPathButt;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.RadioButton PercentageRadioButt;
+        private System.Windows.Forms.RadioButton NodesRadioButt;
+        private System.Windows.Forms.RadioButton BothRadioButt;
+        private System.Windows.Forms.Label label4;
     }
 }
