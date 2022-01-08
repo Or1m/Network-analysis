@@ -125,9 +125,10 @@ namespace MADProject
             // 
             this.PathTextBox.Location = new System.Drawing.Point(88, 89);
             this.PathTextBox.Name = "PathTextBox";
+            this.PathTextBox.ReadOnly = true;
             this.PathTextBox.Size = new System.Drawing.Size(184, 20);
             this.PathTextBox.TabIndex = 8;
-            this.PathTextBox.Text = ".\\\\network.csv";
+            this.PathTextBox.Text = "network.csv";
             // 
             // label4
             // 

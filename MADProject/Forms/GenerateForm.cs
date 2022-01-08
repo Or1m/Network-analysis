@@ -60,7 +60,11 @@ namespace MADProject
 
             NetworkGenerator generator = NetworkGenerator.Instance;
             generator.Generate(numOfNodes, numOfNewEdgesPerNode);
-            generator.PrintNetwork();
+            
+            //generator.PrintToConsole();
+            generator.PrintToFile(PathTextBox.Text);
+
+            Close();
         }
     }
 }
