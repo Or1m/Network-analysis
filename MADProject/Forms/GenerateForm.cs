@@ -37,21 +37,7 @@ namespace MADProject
         
         private void ChangePathButt_Click(object sender, System.EventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog()
-            {
-                RestoreDirectory = true,
-                FileName = "network",
-                DefaultExt = "csv",
-                AddExtension = true,
-                InitialDirectory = Directory.GetCurrentDirectory(),
-                Filter = "CSV file (*.csv)|*.csv| All Files (*.*)|*.*",
-                FilterIndex = 2
-            };
-
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                PathTextBox.Text = dialog.FileName;
-            }
+            Utils.OnChangePath(PathTextBox, "network", "csv", Utils.FileType.csv);
         }
         private void RunButt_Click(object sender, System.EventArgs e)
         {
