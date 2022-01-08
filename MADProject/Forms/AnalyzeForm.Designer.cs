@@ -41,12 +41,19 @@ namespace MADProject
             this.NodesRadioButt = new System.Windows.Forms.RadioButton();
             this.BothRadioButt = new System.Windows.Forms.RadioButton();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.ConsoleRadioButt = new System.Windows.Forms.RadioButton();
+            this.FileRadioButt = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(4, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(82, 13);
             this.label1.TabIndex = 0;
@@ -55,7 +62,7 @@ namespace MADProject
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 74);
+            this.label2.Location = new System.Drawing.Point(4, 74);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(78, 13);
             this.label2.TabIndex = 1;
@@ -83,9 +90,9 @@ namespace MADProject
             // 
             this.AnalyzeButt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.AnalyzeButt.ForeColor = System.Drawing.Color.Red;
-            this.AnalyzeButt.Location = new System.Drawing.Point(100, 219);
+            this.AnalyzeButt.Location = new System.Drawing.Point(125, 282);
             this.AnalyzeButt.Name = "AnalyzeButt";
-            this.AnalyzeButt.Size = new System.Drawing.Size(173, 27);
+            this.AnalyzeButt.Size = new System.Drawing.Size(148, 27);
             this.AnalyzeButt.TabIndex = 4;
             this.AnalyzeButt.Text = "Analyze network";
             this.AnalyzeButt.UseVisualStyleBackColor = true;
@@ -114,7 +121,7 @@ namespace MADProject
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 142);
+            this.label3.Location = new System.Drawing.Point(4, 146);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(115, 13);
             this.label3.TabIndex = 7;
@@ -124,7 +131,7 @@ namespace MADProject
             // 
             this.PercentageRadioButt.AutoSize = true;
             this.PercentageRadioButt.Checked = true;
-            this.PercentageRadioButt.Location = new System.Drawing.Point(133, 142);
+            this.PercentageRadioButt.Location = new System.Drawing.Point(6, 10);
             this.PercentageRadioButt.Name = "PercentageRadioButt";
             this.PercentageRadioButt.Size = new System.Drawing.Size(80, 17);
             this.PercentageRadioButt.TabIndex = 8;
@@ -135,7 +142,7 @@ namespace MADProject
             // NodesRadioButt
             // 
             this.NodesRadioButt.AutoSize = true;
-            this.NodesRadioButt.Location = new System.Drawing.Point(133, 165);
+            this.NodesRadioButt.Location = new System.Drawing.Point(6, 33);
             this.NodesRadioButt.Name = "NodesRadioButt";
             this.NodesRadioButt.Size = new System.Drawing.Size(108, 17);
             this.NodesRadioButt.TabIndex = 9;
@@ -145,7 +152,7 @@ namespace MADProject
             // BothRadioButt
             // 
             this.BothRadioButt.AutoSize = true;
-            this.BothRadioButt.Location = new System.Drawing.Point(133, 188);
+            this.BothRadioButt.Location = new System.Drawing.Point(6, 56);
             this.BothRadioButt.Name = "BothRadioButt";
             this.BothRadioButt.Size = new System.Drawing.Size(47, 17);
             this.BothRadioButt.TabIndex = 10;
@@ -160,15 +167,67 @@ namespace MADProject
             this.label4.Size = new System.Drawing.Size(315, 3);
             this.label4.TabIndex = 11;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(4, 224);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(62, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Output type";
+            // 
+            // ConsoleRadioButt
+            // 
+            this.ConsoleRadioButt.AutoSize = true;
+            this.ConsoleRadioButt.Checked = true;
+            this.ConsoleRadioButt.Location = new System.Drawing.Point(6, 11);
+            this.ConsoleRadioButt.Name = "ConsoleRadioButt";
+            this.ConsoleRadioButt.Size = new System.Drawing.Size(63, 17);
+            this.ConsoleRadioButt.TabIndex = 13;
+            this.ConsoleRadioButt.TabStop = true;
+            this.ConsoleRadioButt.Text = "Console";
+            this.ConsoleRadioButt.UseVisualStyleBackColor = true;
+            // 
+            // FileRadioButt
+            // 
+            this.FileRadioButt.AutoSize = true;
+            this.FileRadioButt.Location = new System.Drawing.Point(6, 34);
+            this.FileRadioButt.Name = "FileRadioButt";
+            this.FileRadioButt.Size = new System.Drawing.Size(41, 17);
+            this.FileRadioButt.TabIndex = 14;
+            this.FileRadioButt.Text = "File";
+            this.FileRadioButt.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.ConsoleRadioButt);
+            this.groupBox1.Controls.Add(this.FileRadioButt);
+            this.groupBox1.Location = new System.Drawing.Point(125, 211);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(147, 68);
+            this.groupBox1.TabIndex = 15;
+            this.groupBox1.TabStop = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.PercentageRadioButt);
+            this.groupBox2.Controls.Add(this.NodesRadioButt);
+            this.groupBox2.Controls.Add(this.BothRadioButt);
+            this.groupBox2.Location = new System.Drawing.Point(125, 134);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(147, 78);
+            this.groupBox2.TabIndex = 16;
+            this.groupBox2.TabStop = false;
+            // 
             // AnalyzeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 258);
+            this.ClientSize = new System.Drawing.Size(284, 321);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.BothRadioButt);
-            this.Controls.Add(this.NodesRadioButt);
-            this.Controls.Add(this.PercentageRadioButt);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.AnalysisPathButt);
             this.Controls.Add(this.NetPathButt);
@@ -183,6 +242,10 @@ namespace MADProject
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Network Analyzer";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AnalyzeForm_FormClosed);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -202,5 +265,10 @@ namespace MADProject
         private System.Windows.Forms.RadioButton NodesRadioButt;
         private System.Windows.Forms.RadioButton BothRadioButt;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.RadioButton ConsoleRadioButt;
+        private System.Windows.Forms.RadioButton FileRadioButt;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }

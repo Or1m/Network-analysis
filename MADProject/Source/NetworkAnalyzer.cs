@@ -14,19 +14,7 @@ namespace MADProject
         private List<float> degreeDistributionsPercentage;
         private List<float> degreeDistributionsNodes;
 
-        private static NetworkAnalyzer instance = null;
-        public static NetworkAnalyzer Instance
-        {
-            get
-            {
-                if (instance == null)
-                    instance = new NetworkAnalyzer();
-
-                return instance;
-            }
-        }
-
-        private NetworkAnalyzer() 
+        public NetworkAnalyzer() 
         {
             network = new Dictionary<int, List<int>>();
             degreeDistributionsPercentage = new List<float>();
@@ -71,7 +59,6 @@ namespace MADProject
             maxDegree = max;
             avgDegree = sum / (float)network.Count;
         }
-
         private void CalcDegreeDistribution()
         {
             int networkLength = network.Count;
@@ -126,6 +113,10 @@ namespace MADProject
 
                 Console.WriteLine();
             }
+        }
+        public void PrintToFile(EDegreeDistributionType type)
+        {
+            throw new NotImplementedException();
         }
     }
 }

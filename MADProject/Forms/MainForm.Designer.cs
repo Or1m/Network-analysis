@@ -31,6 +31,7 @@ namespace MADProject
         {
             this.GenerateButt = new System.Windows.Forms.Button();
             this.AnalyzeButt = new System.Windows.Forms.Button();
+            this.ClearButt = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // GenerateButt
@@ -40,7 +41,7 @@ namespace MADProject
             this.GenerateButt.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.GenerateButt.Location = new System.Drawing.Point(12, 12);
             this.GenerateButt.Name = "GenerateButt";
-            this.GenerateButt.Size = new System.Drawing.Size(193, 187);
+            this.GenerateButt.Size = new System.Drawing.Size(193, 176);
             this.GenerateButt.TabIndex = 0;
             this.GenerateButt.Text = "Generate";
             this.GenerateButt.UseVisualStyleBackColor = true;
@@ -53,18 +54,32 @@ namespace MADProject
             this.AnalyzeButt.ForeColor = System.Drawing.Color.Red;
             this.AnalyzeButt.Location = new System.Drawing.Point(229, 12);
             this.AnalyzeButt.Name = "AnalyzeButt";
-            this.AnalyzeButt.Size = new System.Drawing.Size(193, 187);
+            this.AnalyzeButt.Size = new System.Drawing.Size(193, 176);
             this.AnalyzeButt.TabIndex = 1;
             this.AnalyzeButt.Text = "Analyze";
             this.AnalyzeButt.UseVisualStyleBackColor = true;
             this.AnalyzeButt.Click += new System.EventHandler(this.AnalyzeButt_Click);
+            // 
+            // ClearButt
+            // 
+            this.ClearButt.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ClearButt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.ClearButt.ForeColor = System.Drawing.Color.Black;
+            this.ClearButt.Location = new System.Drawing.Point(12, 200);
+            this.ClearButt.Name = "ClearButt";
+            this.ClearButt.Size = new System.Drawing.Size(410, 41);
+            this.ClearButt.TabIndex = 2;
+            this.ClearButt.Text = "Clear console";
+            this.ClearButt.UseVisualStyleBackColor = true;
+            this.ClearButt.Click += new System.EventHandler(this.ClearButt_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(434, 211);
+            this.ClientSize = new System.Drawing.Size(434, 253);
+            this.Controls.Add(this.ClearButt);
             this.Controls.Add(this.AnalyzeButt);
             this.Controls.Add(this.GenerateButt);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -80,6 +95,7 @@ namespace MADProject
 
         private System.Windows.Forms.Button GenerateButt;
         private System.Windows.Forms.Button AnalyzeButt;
+        private System.Windows.Forms.Button ClearButt;
     }
 }
 

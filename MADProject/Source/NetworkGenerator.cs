@@ -8,20 +8,7 @@ namespace MADProject
     class NetworkGenerator
     {
         private readonly Dictionary<int, List<int>> network;
-
-        private static NetworkGenerator instance = null;
-        public static NetworkGenerator Instance
-        {
-            get
-            {
-                if (instance == null)
-                    instance = new NetworkGenerator();
-
-                return instance;
-            }
-        }
-
-        private NetworkGenerator() 
+        public NetworkGenerator() 
         {
             network = new Dictionary<int, List<int>>();
         }

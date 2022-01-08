@@ -38,6 +38,14 @@ namespace MADProject
                 return;
             }
 
+            NetworkAnalyzer analyzer = new NetworkAnalyzer();
+            analyzer.Analyze(source);
+
+            Print(analyzer);
+        }
+
+        private void Print(NetworkAnalyzer analyzer)
+        {
             EDegreeDistributionType type = EDegreeDistributionType.percentage;
 
             if (NodesRadioButt.Checked)
@@ -45,9 +53,10 @@ namespace MADProject
             else if (BothRadioButt.Checked)
                 type = EDegreeDistributionType.both;
 
-            NetworkAnalyzer analyzer = NetworkAnalyzer.Instance;
-            analyzer.Analyze(source);
-            analyzer.PrintToConsole(type);
+            if (FileRadioButt.Checked)
+                analyzer.PrintToFile(type);
+            else
+                analyzer.PrintToConsole(type);
         }
     }
 }

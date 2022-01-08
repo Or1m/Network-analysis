@@ -45,7 +45,7 @@ namespace MADProject
             int numOfNodes = int.Parse(NumOfNodesTextBox.Text);
             int numOfNewEdgesPerNode = int.Parse(MTextBox.Text);
 
-            NetworkGenerator generator = NetworkGenerator.Instance;
+            NetworkGenerator generator = new NetworkGenerator();
             generator.Generate(numOfNodes, numOfNewEdgesPerNode);
             
             if (FileRadioButt.Checked)

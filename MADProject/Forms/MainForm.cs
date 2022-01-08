@@ -25,5 +25,10 @@ namespace MADProject
             analyzeForm.Show();
             Enabled = false;
         }
+
+        private void ClearButt_Click(object sender, EventArgs e)
+        {
+            Console.Clear();
+        }
     }
 }
