@@ -150,7 +150,7 @@ namespace MADProject
             Console.WriteLine("Min degree od node: " + minDegree);
             Console.WriteLine("Max degree od node: " + maxDegree);
             Console.WriteLine("Avg degree od node: " + avgDegree);
-            Console.WriteLine("Avg : " + average);
+            Console.WriteLine("Network diameter (avg): " + average);
 
             Console.WriteLine();
             Console.WriteLine("-----------------------");
@@ -194,7 +194,7 @@ namespace MADProject
 
             foreach (KeyValuePair<int, List<int>> kvp in network)
             {
-                Console.WriteLine("Node {0} has average distance: {1}", kvp.Key, kvp.Value.Count);
+                Console.WriteLine("Node {0} has {1} neighbours: ", kvp.Key, kvp.Value.Count);
             }
             Console.WriteLine();
 

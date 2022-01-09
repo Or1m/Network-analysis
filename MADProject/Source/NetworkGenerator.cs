@@ -17,8 +17,7 @@ namespace MADProject
         {
             Console.WriteLine("Number of Nodes: " + numOfNodes);
             Console.WriteLine("M: " + m);
-            Console.WriteLine("---------------------");
-
+            
             GenerateInitialSubNetwork(m);
 
             int length = numOfNodes - network.Count;
@@ -26,6 +25,9 @@ namespace MADProject
             {
                 AddNewNode(m);
             }
+
+            Console.WriteLine("Network generated");
+            Console.WriteLine("---------------------");
         }
         private void GenerateInitialSubNetwork(int m)
         {
@@ -59,15 +61,14 @@ namespace MADProject
         }
         private int CalcProbability(int current)
         {
-            int temp = 0;
+            int sum = 0;
             int length = network.Count;
 
             for (int i = 0; i < length; i++)
-                temp += network[i].Count;
+                sum += network[i].Count;
 
-            float res = network[current].Count / (float)temp;
-
-            return (int)(res * 100);
+            double res = Math.Round(network[current].Count / (double)sum, 6);
+            return (int)(res * 1000000);
         }
         private void GetWeightedRandomPicks(int m, List<int> probabilities, List<int> picks, int length)
         {
