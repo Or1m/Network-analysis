@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace MADProject
 {
@@ -15,14 +16,20 @@ namespace MADProject
 
         private List<float> degreeDistributionsPercentage;
         private List<float> degreeDistributionsNodes;
-        private List<List<int>> shortestPathMatrix;
+        private List<List<int>> distanceMatrix;
+
+        private Dictionary<int, float> nodeAndAvgDist;
+        private Dictionary<int, float> nodeAndClosenessCentrality;
 
         public NetworkAnalyzer() 
         {
             network = new Dictionary<int, List<int>>();
             degreeDistributionsPercentage = new List<float>();
             degreeDistributionsNodes = new List<float>();
-            shortestPathMatrix = new List<List<int>>();
+            distanceMatrix = new List<List<int>>();
+
+            nodeAndAvgDist = new Dictionary<int, float>();
+            nodeAndClosenessCentrality = new Dictionary<int, float>();
         }
 
         public void Analyze(string source)
@@ -41,7 +48,7 @@ namespace MADProject
 
             CalcMinMaxAndAvgForDegree();
             CalcDegreeDistribution();
-            PopulateShortestPathMatrix();
+            PopulateDistanceMatrix();
             CalcAvgDistAvgAndClosenessCentrailty();
             //CalcAverageClustering();
         }
@@ -84,7 +91,7 @@ namespace MADProject
                 degreeDistributionsNodes.Add(count);
             }
         }
-        private void PopulateShortestPathMatrix()
+        private void PopulateDistanceMatrix()
         {
             foreach (KeyValuePair<int, List<int>> kvp in network)
             {
@@ -114,14 +121,11 @@ namespace MADProject
                     }
                 }
 
-                shortestPathMatrix.Add(distances.Values.ToList());
+                distanceMatrix.Add(distances.Values.ToList());
             }
         }
         private void CalcAvgDistAvgAndClosenessCentrailty()
         {
-            var nodeAndAvgDist = new Dictionary<int, float>();
-            var nodeAndClosenessCentrality = new Dictionary<int, float>();
-
             int max = 0;
 
             var keys = network.Keys.ToList();
@@ -129,7 +133,7 @@ namespace MADProject
 
             for (int i = 0; i < length; i++)
             {
-                var row = shortestPathMatrix[i];
+                var row = distanceMatrix[i];
                 var avgDistance = row.Sum() / (float)(row.Count - 1);
                 nodeAndAvgDist[keys[i]] = avgDistance;
                 nodeAndClosenessCentrality[keys[i]] = 1 / avgDistance;
@@ -141,7 +145,7 @@ namespace MADProject
             average = max;
         }
 
-        public void PrintToConsole(EDegreeDistributionType type)
+        public void PrintToConsole(EDegreeDistributionType type, bool showMatrix)
         {
             Console.WriteLine("Min degree od node: " + minDegree);
             Console.WriteLine("Max degree od node: " + maxDegree);
@@ -155,6 +159,7 @@ namespace MADProject
             if (type == EDegreeDistributionType.percentage || type == EDegreeDistributionType.both)
             {
                 Console.WriteLine("Degree distributions in %: ");
+                Console.WriteLine();
 
                 int length = degreeDistributionsPercentage.Count;
                 for (int i = 0; i < length; i++)
@@ -168,6 +173,7 @@ namespace MADProject
             if (type == EDegreeDistributionType.nodes || type == EDegreeDistributionType.both)
             {
                 Console.WriteLine("Degree distributions in nodes: ");
+                Console.WriteLine();
 
                 int length = degreeDistributionsNodes.Count;
                 for (int i = 0; i < length; i++)
@@ -178,19 +184,85 @@ namespace MADProject
                 Console.WriteLine();
             }
 
+            if (showMatrix)
+                PrintShortestPathMatrix();
+
+            Console.WriteLine("-----------------------");
+            Console.WriteLine();
+            Console.WriteLine("Neighbours count:");
+            Console.WriteLine();
+
+            foreach (KeyValuePair<int, List<int>> kvp in network)
+            {
+                Console.WriteLine("Node {0} has average distance: {1}", kvp.Key, kvp.Value.Count);
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("-----------------------");
+            Console.WriteLine();
+            Console.WriteLine("Average distances:");
+            Console.WriteLine();
+
+            foreach (KeyValuePair<int, float> kvp in nodeAndAvgDist)
+            {
+                Console.WriteLine("Node {0} has average distance: {1}", kvp.Key, kvp.Value);
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("-----------------------");
+            Console.WriteLine();
+            Console.WriteLine("Closeness centralities:");
+            Console.WriteLine();
+
+            foreach (KeyValuePair<int, float> kvp in nodeAndClosenessCentrality)
+            {
+                Console.WriteLine("Node {0} has closeness centrality: {1}", kvp.Key, kvp.Value);
+            }
+        }
+        public bool PrintToFile(string path, EDegreeDistributionType type, bool showMatrix)
+        {
+            FileStream fileStream;
+            StreamWriter writer;
+            TextWriter oldOut = Console.Out;
+
+            try
+            {
+                fileStream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
+                writer = new StreamWriter(fileStream);
+            }
+            catch
+            {
+                MessageBox.Show("Cannot open file", "Fatal error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            Console.SetOut(writer);
+
+            PrintToConsole(type, showMatrix);
+
+            Console.SetOut(oldOut);
+
+            writer.Close();
+            fileStream.Close();
+
+            return true;
+        }
+        
+        private void PrintShortestPathMatrix()
+        {
             Console.WriteLine("-----------------------");
             Console.WriteLine("Shortest path matrix:");
             Console.WriteLine();
 
-            int rowLength = shortestPathMatrix.Count;
-            int colLength = shortestPathMatrix[0].Count;
+            int rowLength = distanceMatrix.Count;
+            int colLength = distanceMatrix[0].Count;
 
-            Console.Write("{0, -6}", "");
+            Console.Write("{0, -10}", "");
 
             var legendArr = network.Keys.ToList();
             for (int i = 0; i < colLength; i++)
             {
-                Console.Write("{0, -3}", legendArr[i]);
+                Console.Write("{0, -5}", legendArr[i]);
             }
 
             Console.WriteLine();
@@ -198,21 +270,17 @@ namespace MADProject
 
             for (int i = 0; i < rowLength; i++)
             {
-                Console.Write("{0, -6}", legendArr[i]);
+                Console.Write("{0, -10}", legendArr[i]);
 
                 for (int j = 0; j < colLength; j++)
                 {
-                    Console.Write("{0, -3}", shortestPathMatrix[i][j]);
+                    Console.Write("{0, -5}", distanceMatrix[i][j]);
                 }
 
                 Console.WriteLine();
             }
 
             Console.WriteLine();
-        }
-        public void PrintToFile(EDegreeDistributionType type)
-        {
-            throw new NotImplementedException();
         }
     }
 }

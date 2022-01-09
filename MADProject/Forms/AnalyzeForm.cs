@@ -21,7 +21,7 @@ namespace MADProject
 
         private void NetPathButt_Click(object sender, System.EventArgs e)
         {
-            Utils.OnChangePath(NetPathTextBox, "network", "csv", EFileType.csv);
+            Utils.OnChangePath(NetPathTextBox, "network", "csv", EFileType.csv, false);
         }
 
         private void AnalysisPathButt_Click(object sender, System.EventArgs e)
@@ -54,9 +54,12 @@ namespace MADProject
                 type = EDegreeDistributionType.both;
 
             if (FileRadioButt.Checked)
-                analyzer.PrintToFile(type);
+            {
+                if (analyzer.PrintToFile(AnalysisPathTextBox.Text, type, showMatrixCheckBox.Checked));
+                    Close();
+            }
             else
-                analyzer.PrintToConsole(type);
+                analyzer.PrintToConsole(type, showMatrixCheckBox.Checked);
         }
     }
 }

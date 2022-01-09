@@ -46,6 +46,8 @@ namespace MADProject
             this.FileRadioButt = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.showMatrixCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -219,11 +221,30 @@ namespace MADProject
             this.groupBox2.TabIndex = 16;
             this.groupBox2.TabStop = false;
             // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(4, 276);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(74, 33);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "Show shortest path matrix";
+            // 
+            // showMatrixCheckBox
+            // 
+            this.showMatrixCheckBox.AutoSize = true;
+            this.showMatrixCheckBox.Location = new System.Drawing.Point(85, 282);
+            this.showMatrixCheckBox.Name = "showMatrixCheckBox";
+            this.showMatrixCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.showMatrixCheckBox.TabIndex = 18;
+            this.showMatrixCheckBox.UseVisualStyleBackColor = true;
+            // 
             // AnalyzeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 321);
+            this.Controls.Add(this.showMatrixCheckBox);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label5);
@@ -270,5 +291,7 @@ namespace MADProject
         private System.Windows.Forms.RadioButton FileRadioButt;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox showMatrixCheckBox;
     }
 }

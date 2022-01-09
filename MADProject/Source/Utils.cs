@@ -9,23 +9,25 @@ namespace MADProject
         private const string textFileFormat = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
         private const string csvFileFormat  = "CSV file (*.csv)|*.csv| All Files (*.*)|*.*";
        
-        public static void OnChangePath(TextBox target, string name, string extension, EFileType fileType)
+        public static void OnChangePath(TextBox target, string name, string extension, EFileType fileType, bool saveFile = true)
         {
-            SaveFileDialog dialog = new SaveFileDialog()
-            {
-                RestoreDirectory = true,
-                FileName = name,
-                DefaultExt = extension,
-                AddExtension = true,
-                InitialDirectory = Directory.GetCurrentDirectory(),
-                Filter = fileType == EFileType.csv ? csvFileFormat : textFileFormat,
-                FilterIndex = 2
-            };
+            FileDialog dialog = null;
+
+            if (saveFile)
+                dialog = new SaveFileDialog();
+            else
+                dialog = new OpenFileDialog();
+
+            dialog.RestoreDirectory = true;
+            dialog.FileName = name;
+            dialog.DefaultExt = extension;
+            dialog.AddExtension = true;
+            dialog.InitialDirectory = Directory.GetCurrentDirectory();
+            dialog.Filter = fileType == EFileType.csv ? csvFileFormat : textFileFormat;
+            dialog.FilterIndex = 2;
 
             if (dialog.ShowDialog() == DialogResult.OK)
-            {
                 target.Text = dialog.FileName;
-            }
         }
     }
 }
