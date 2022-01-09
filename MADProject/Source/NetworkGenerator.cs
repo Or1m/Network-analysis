@@ -67,7 +67,7 @@ namespace MADProject
             for (int i = 0; i < length; i++)
                 sum += network[i].Count;
 
-            double res = Math.Round(network[current].Count / (double)sum, 6);
+            float res = network[current].Count / (float)sum;
             return (int)(res * 1000000);
         }
         private void GetWeightedRandomPicks(int m, List<int> probabilities, List<int> picks, int length)
