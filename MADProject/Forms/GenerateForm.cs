@@ -38,7 +38,7 @@ namespace MADProject
         
         private void ChangePathButt_Click(object sender, System.EventArgs e)
         {
-            Utils.OnChangePath(PathTextBox, "network", "csv", EFileType.csv);
+            Utils.OnChangePath(PathTextBox, "network", "csv", EFileType.CSV);
         }
         private void RunButt_Click(object sender, System.EventArgs e)
         {

@@ -2,7 +2,7 @@
 {
     public enum EFileType
     {
-        textfile,
-        csv
+        Textfile,
+        CSV
     }
 }

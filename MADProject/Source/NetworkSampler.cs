@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace MADProject
 {
-    class NetworkAnalyzer
+    class NetworSampler
     {
         private readonly Dictionary<int, List<int>> network;
         private int minDegree, maxDegree;
@@ -21,7 +21,7 @@ namespace MADProject
         private Dictionary<int, float> nodeAndAvgDist;
         private Dictionary<int, float> nodeAndClosenessCentrality;
 
-        public NetworkAnalyzer() 
+        public NetworSampler() 
         {
             network = new Dictionary<int, List<int>>();
             degreeDistributionsPercentage = new List<float>();
@@ -145,7 +145,7 @@ namespace MADProject
             average = max;
         }
 
-        public void PrintToConsole(EDegreeDistributionType type, bool showMatrix)
+        public void PrintToConsole()
         {
             Console.WriteLine("Min degree od node: " + minDegree);
             Console.WriteLine("Max degree od node: " + maxDegree);
@@ -156,36 +156,33 @@ namespace MADProject
             Console.WriteLine("-----------------------");
             Console.WriteLine();
 
-            if (type == EDegreeDistributionType.percentage || type == EDegreeDistributionType.both)
-            {
-                Console.WriteLine("Degree distributions in %: ");
-                Console.WriteLine();
+            //if (type == EDegreeDistributionType.percentage || type == EDegreeDistributionType.both)
+            //{
+            //    Console.WriteLine("Degree distributions in %: ");
+            //    Console.WriteLine();
 
-                int length = degreeDistributionsPercentage.Count;
-                for (int i = 0; i < length; i++)
-                {
-                    Console.WriteLine("Degree {0} has {1}% of nodes.", i, degreeDistributionsPercentage[i] * 100);
-                }
+            //    int length = degreeDistributionsPercentage.Count;
+            //    for (int i = 0; i < length; i++)
+            //    {
+            //        Console.WriteLine("Degree {0} has {1}% of nodes.", i, degreeDistributionsPercentage[i] * 100);
+            //    }
 
-                Console.WriteLine();
-            }
+            //    Console.WriteLine();
+            //}
 
-            if (type == EDegreeDistributionType.nodes || type == EDegreeDistributionType.both)
-            {
-                Console.WriteLine("Degree distributions in nodes: ");
-                Console.WriteLine();
+            //if (type == EDegreeDistributionType.nodes || type == EDegreeDistributionType.both)
+            //{
+            //    Console.WriteLine("Degree distributions in nodes: ");
+            //    Console.WriteLine();
 
-                int length = degreeDistributionsNodes.Count;
-                for (int i = 0; i < length; i++)
-                {
-                    Console.WriteLine("Degree {0} has {1} nodes.", i, degreeDistributionsNodes[i]);
-                }
+            //    int length = degreeDistributionsNodes.Count;
+            //    for (int i = 0; i < length; i++)
+            //    {
+            //        Console.WriteLine("Degree {0} has {1} nodes.", i, degreeDistributionsNodes[i]);
+            //    }
 
-                Console.WriteLine();
-            }
-
-            if (showMatrix)
-                PrintShortestPathMatrix();
+            //    Console.WriteLine();
+            //}
 
             Console.WriteLine("-----------------------");
             Console.WriteLine();
@@ -219,7 +216,7 @@ namespace MADProject
                 Console.WriteLine("Node {0} has closeness centrality: {1}", kvp.Key, kvp.Value);
             }
         }
-        public bool PrintToFile(string path, EDegreeDistributionType type, bool showMatrix)
+        public bool PrintToFile(string path)
         {
             FileStream fileStream;
             StreamWriter writer;
@@ -237,50 +234,13 @@ namespace MADProject
             }
 
             Console.SetOut(writer);
-
-            PrintToConsole(type, showMatrix);
-
+            PrintToConsole();
             Console.SetOut(oldOut);
 
             writer.Close();
             fileStream.Close();
 
             return true;
-        }
-        
-        private void PrintShortestPathMatrix()
-        {
-            Console.WriteLine("-----------------------");
-            Console.WriteLine("Shortest path matrix:");
-            Console.WriteLine();
-
-            int rowLength = distanceMatrix.Count;
-            int colLength = distanceMatrix[0].Count;
-
-            Console.Write("{0, -10}", "");
-
-            var legendArr = network.Keys.ToList();
-            for (int i = 0; i < colLength; i++)
-            {
-                Console.Write("{0, -5}", legendArr[i]);
-            }
-
-            Console.WriteLine();
-            Console.WriteLine();
-
-            for (int i = 0; i < rowLength; i++)
-            {
-                Console.Write("{0, -10}", legendArr[i]);
-
-                for (int j = 0; j < colLength; j++)
-                {
-                    Console.Write("{0, -5}", distanceMatrix[i][j]);
-                }
-
-                Console.WriteLine();
-            }
-
-            Console.WriteLine();
         }
     }
 }

@@ -21,12 +21,12 @@ namespace MADProject
 
         private void NetPathButt_Click(object sender, System.EventArgs e)
         {
-            Utils.OnChangePath(NetPathTextBox, "network", "csv", EFileType.csv, false);
+            Utils.OnChangePath(NetPathTextBox, "network", "csv", EFileType.CSV, false);
         }
 
         private void AnalysisPathButt_Click(object sender, System.EventArgs e)
         {
-            Utils.OnChangePath(AnalysisPathTextBox, "analysis", "txt", EFileType.textfile);
+            Utils.OnChangePath(AnalysisPathTextBox, "analysis", "txt", EFileType.Textfile);
         }
 
         private void AnalyzeButt_Click(object sender, System.EventArgs e)
@@ -38,28 +38,28 @@ namespace MADProject
                 return;
             }
 
-            NetworkAnalyzer analyzer = new NetworkAnalyzer();
+            NetworSampler analyzer = new NetworSampler();
             analyzer.Analyze(source);
 
             Print(analyzer);
         }
 
-        private void Print(NetworkAnalyzer analyzer)
+        private void Print(NetworSampler analyzer)
         {
-            EDegreeDistributionType type = EDegreeDistributionType.percentage;
+            //EDegreeDistributionType type = EDegreeDistributionType.percentage;
 
-            if (NodesRadioButt.Checked)
-                type = EDegreeDistributionType.nodes;
-            else if (BothRadioButt.Checked)
-                type = EDegreeDistributionType.both;
+            //if (NodesRadioButt.Checked)
+            //    type = EDegreeDistributionType.nodes;
+            //else if (BothRadioButt.Checked)
+            //    type = EDegreeDistributionType.both;
 
-            if (FileRadioButt.Checked)
-            {
-                if (analyzer.PrintToFile(AnalysisPathTextBox.Text, type, showMatrixCheckBox.Checked));
-                    Close();
-            }
-            else
-                analyzer.PrintToConsole(type, showMatrixCheckBox.Checked);
+            //if (FileRadioButt.Checked)
+            //{
+            //    if (analyzer.PrintToFile(AnalysisPathTextBox.Text, type, showMatrixCheckBox.Checked));
+            //        Close();
+            //}
+            //else
+            //    analyzer.PrintToConsole(type, showMatrixCheckBox.Checked);
         }
     }
 }

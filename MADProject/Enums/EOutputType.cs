@@ -2,7 +2,7 @@
 {
     public enum EOutputType
     {
-        console,
-        file
+        Console,
+        File
     }
 }

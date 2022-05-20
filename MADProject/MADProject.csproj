@@ -52,7 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\EDegreeDistributionType.cs" />
+    <Compile Include="Enums\EMethodType.cs" />
     <Compile Include="Enums\EFileType.cs" />
     <Compile Include="Enums\EOutputType.cs" />
     <Compile Include="Forms\AnalyzeForm.cs">
@@ -73,7 +73,7 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\NetworkAnalyzer.cs" />
+    <Compile Include="Source\NetworkSampler.cs" />
     <Compile Include="Source\NetworkGenerator.cs" />
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

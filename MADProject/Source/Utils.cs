@@ -23,7 +23,7 @@ namespace MADProject
             dialog.DefaultExt = extension;
             dialog.AddExtension = true;
             dialog.InitialDirectory = Directory.GetCurrentDirectory();
-            dialog.Filter = fileType == EFileType.csv ? csvFileFormat : textFileFormat;
+            dialog.Filter = fileType == EFileType.CSV ? csvFileFormat : textFileFormat;
             dialog.FilterIndex = 2;
 
             if (dialog.ShowDialog() == DialogResult.OK)

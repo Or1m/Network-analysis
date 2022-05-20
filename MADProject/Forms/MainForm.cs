@@ -1,34 +1,55 @@
-﻿using System;
+﻿using MADProject.Enums;
+using System;
 using System.Windows.Forms;
 
 namespace MADProject
 {
     public partial class MainForm : Form
     {
-        private GenerateForm generateForm;
-        private AnalyzeForm analyzeForm;
-        
         public MainForm()
         {
             InitializeComponent();
+            MethodComboBox.DataSource = Enum.GetValues(typeof(EMethodType));
         }
 
-        private void GenerateButt_Click(object sender, EventArgs e)
+        private void NetPathButt_Click(object sender, EventArgs e)
         {
-            generateForm = new GenerateForm(this);
-            generateForm.Show();
-            Enabled = false;
+            Utils.OnChangePath(NetPathTextBox, "network", "csv", EFileType.CSV, false);
         }
-        private void AnalyzeButt_Click(object sender, EventArgs e)
+        private void StatsPathButt_Click(object sender, EventArgs e)
         {
-            analyzeForm = new AnalyzeForm(this);
-            analyzeForm.Show();
-            Enabled = false;
+            Utils.OnChangePath(AnalysisPathTextBox, "analysis", "txt", EFileType.Textfile);
+        }
+        private void SamplePathButt_Click(object sender, EventArgs e)
+        {
+
         }
 
-        private void ClearButt_Click(object sender, EventArgs e)
+        private void SampleButt_Click(object sender, EventArgs e)
         {
-            Console.Clear();
+
+        }
+
+        private void PrintStatsButt_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void PrintSampleButt_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RNDBox_CheckedChanged(object sender, EventArgs e)
+        {
+            StartBox.Enabled = !RNDBox.Checked;
+        }
+
+        private void Print(NetworSampler sampler)
+        {
+            if (FileRadioButt.Checked)
+                sampler.PrintToFile(AnalysisPathTextBox.Text);
+            else
+                sampler.PrintToConsole();
         }
     }
 }
