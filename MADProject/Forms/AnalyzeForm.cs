@@ -38,10 +38,10 @@ namespace MADProject
                 return;
             }
 
-            NetworSampler analyzer = new NetworSampler();
-            analyzer.Analyze(source);
+            //NetworSampler analyzer = new NetworSampler();
+            //analyzer.ParseData(source);
 
-            Print(analyzer);
+            //Print(analyzer);
         }
 
         private void Print(NetworSampler analyzer)

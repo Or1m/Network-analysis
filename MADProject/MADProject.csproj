@@ -73,10 +73,11 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\NetworkAnalyzer.cs" />
     <Compile Include="Source\NetworkSampler.cs" />
-    <Compile Include="Source\NetworkGenerator.cs" />
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Stats.cs" />
     <Compile Include="Source\Utils.cs" />
     <EmbeddedResource Include="Forms\AnalyzeForm.resx">
       <DependentUpon>AnalyzeForm.cs</DependentUpon>

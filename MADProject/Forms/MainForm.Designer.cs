@@ -37,7 +37,7 @@ namespace MADProject
             this.StatsPathButt = new System.Windows.Forms.Button();
             this.NetPathButt = new System.Windows.Forms.Button();
             this.SampleButt = new System.Windows.Forms.Button();
-            this.AnalysisPathTextBox = new System.Windows.Forms.TextBox();
+            this.StatsPathTextBox = new System.Windows.Forms.TextBox();
             this.NetPathTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -53,8 +53,10 @@ namespace MADProject
             this.StartBox = new System.Windows.Forms.TextBox();
             this.RNDBox = new System.Windows.Forms.CheckBox();
             this.SamplePathButt = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.SamplePathTextBox = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.DelimTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -139,14 +141,14 @@ namespace MADProject
             this.SampleButt.UseVisualStyleBackColor = true;
             this.SampleButt.Click += new System.EventHandler(this.SampleButt_Click);
             // 
-            // AnalysisPathTextBox
+            // StatsPathTextBox
             // 
-            this.AnalysisPathTextBox.Location = new System.Drawing.Point(428, 12);
-            this.AnalysisPathTextBox.Name = "AnalysisPathTextBox";
-            this.AnalysisPathTextBox.ReadOnly = true;
-            this.AnalysisPathTextBox.Size = new System.Drawing.Size(172, 20);
-            this.AnalysisPathTextBox.TabIndex = 22;
-            this.AnalysisPathTextBox.Text = "stats.txt";
+            this.StatsPathTextBox.Location = new System.Drawing.Point(428, 12);
+            this.StatsPathTextBox.Name = "StatsPathTextBox";
+            this.StatsPathTextBox.ReadOnly = true;
+            this.StatsPathTextBox.Size = new System.Drawing.Size(172, 20);
+            this.StatsPathTextBox.TabIndex = 22;
+            this.StatsPathTextBox.Text = "stats.txt";
             // 
             // NetPathTextBox
             // 
@@ -291,14 +293,14 @@ namespace MADProject
             this.SamplePathButt.UseVisualStyleBackColor = true;
             this.SamplePathButt.Click += new System.EventHandler(this.SamplePathButt_Click);
             // 
-            // textBox1
+            // SamplePathTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(428, 70);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(172, 20);
-            this.textBox1.TabIndex = 42;
-            this.textBox1.Text = "sample.csv";
+            this.SamplePathTextBox.Location = new System.Drawing.Point(428, 70);
+            this.SamplePathTextBox.Name = "SamplePathTextBox";
+            this.SamplePathTextBox.ReadOnly = true;
+            this.SamplePathTextBox.Size = new System.Drawing.Size(172, 20);
+            this.SamplePathTextBox.TabIndex = 42;
+            this.SamplePathTextBox.Text = "sample.csv";
             // 
             // label9
             // 
@@ -309,14 +311,34 @@ namespace MADProject
             this.label9.TabIndex = 41;
             this.label9.Text = "Sample output path";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(11, 73);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(47, 13);
+            this.label10.TabIndex = 44;
+            this.label10.Text = "Delimiter";
+            // 
+            // DelimTextBox
+            // 
+            this.DelimTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.DelimTextBox.Location = new System.Drawing.Point(109, 70);
+            this.DelimTextBox.Name = "DelimTextBox";
+            this.DelimTextBox.Size = new System.Drawing.Size(172, 29);
+            this.DelimTextBox.TabIndex = 45;
+            this.DelimTextBox.Text = ";";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(612, 310);
+            this.Controls.Add(this.DelimTextBox);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.SamplePathButt);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.SamplePathTextBox);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.RNDBox);
             this.Controls.Add(this.StartBox);
@@ -335,7 +357,7 @@ namespace MADProject
             this.Controls.Add(this.StatsPathButt);
             this.Controls.Add(this.NetPathButt);
             this.Controls.Add(this.SampleButt);
-            this.Controls.Add(this.AnalysisPathTextBox);
+            this.Controls.Add(this.StatsPathTextBox);
             this.Controls.Add(this.NetPathTextBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -360,7 +382,7 @@ namespace MADProject
         private System.Windows.Forms.Button StatsPathButt;
         private System.Windows.Forms.Button NetPathButt;
         private System.Windows.Forms.Button SampleButt;
-        private System.Windows.Forms.TextBox AnalysisPathTextBox;
+        private System.Windows.Forms.TextBox StatsPathTextBox;
         private System.Windows.Forms.TextBox NetPathTextBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
@@ -376,8 +398,10 @@ namespace MADProject
         private System.Windows.Forms.TextBox StartBox;
         private System.Windows.Forms.CheckBox RNDBox;
         private System.Windows.Forms.Button SamplePathButt;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox SamplePathTextBox;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox DelimTextBox;
     }
 }
 

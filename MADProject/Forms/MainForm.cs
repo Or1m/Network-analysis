@@ -6,6 +6,8 @@ namespace MADProject
 {
     public partial class MainForm : Form
     {
+        private NetworSampler sampler;
+
         public MainForm()
         {
             InitializeComponent();
@@ -18,38 +20,41 @@ namespace MADProject
         }
         private void StatsPathButt_Click(object sender, EventArgs e)
         {
-            Utils.OnChangePath(AnalysisPathTextBox, "analysis", "txt", EFileType.Textfile);
+            Utils.OnChangePath(StatsPathTextBox, "stats", "txt", EFileType.Textfile);
         }
         private void SamplePathButt_Click(object sender, EventArgs e)
         {
-
+            Utils.OnChangePath(SamplePathTextBox, "sample", "csv", EFileType.CSV);
         }
 
         private void SampleButt_Click(object sender, EventArgs e)
         {
+            sampler = new NetworSampler();
+            sampler.ParseData(NetPathTextBox.Text, DelimTextBox.Text.Trim()[0]);
 
+            Enum.TryParse(MethodComboBox.SelectedValue.ToString(), out EMethodType method);
+            sampler.DoSampling(method, int.Parse(SizeBox.Text), int.Parse(MaxIterBox.Text), 
+                RNDBox.Checked? -1 : int.Parse(StartBox.Text));
         }
 
         private void PrintStatsButt_Click(object sender, EventArgs e)
         {
-
+            if (FileRadioButt.Checked)
+                Utils.RedirectConsoleToFile(StatsPathTextBox.Text, sampler.PrintStatsToConsole);
+            else
+                sampler.PrintStatsToConsole();
         }
         private void PrintSampleButt_Click(object sender, EventArgs e)
         {
-
+            if (FileRadioButt.Checked)
+                Utils.RedirectConsoleToFile(SamplePathTextBox.Text, sampler.PrintSampleToConsole);
+            else
+                sampler.PrintSampleToConsole();
         }
 
         private void RNDBox_CheckedChanged(object sender, EventArgs e)
         {
             StartBox.Enabled = !RNDBox.Checked;
-        }
-
-        private void Print(NetworSampler sampler)
-        {
-            if (FileRadioButt.Checked)
-                sampler.PrintToFile(AnalysisPathTextBox.Text);
-            else
-                sampler.PrintToConsole();
         }
     }
 }

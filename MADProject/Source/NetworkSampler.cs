@@ -1,9 +1,8 @@
 ﻿using MADProject.Enums;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace MADProject
@@ -11,236 +10,184 @@ namespace MADProject
     class NetworSampler
     {
         private readonly Dictionary<int, List<int>> network;
-        private int minDegree, maxDegree;
-        private float avgDegree, average;
-
-        private List<float> degreeDistributionsPercentage;
-        private List<float> degreeDistributionsNodes;
-        private List<List<int>> distanceMatrix;
-
-        private Dictionary<int, float> nodeAndAvgDist;
-        private Dictionary<int, float> nodeAndClosenessCentrality;
+        private readonly Dictionary<int, List<int>> sample;
+        private Stats networkStats, sampleStats;
+        private (string h1, string h2) header;
 
         public NetworSampler() 
         {
             network = new Dictionary<int, List<int>>();
-            degreeDistributionsPercentage = new List<float>();
-            degreeDistributionsNodes = new List<float>();
-            distanceMatrix = new List<List<int>>();
-
-            nodeAndAvgDist = new Dictionary<int, float>();
-            nodeAndClosenessCentrality = new Dictionary<int, float>();
+            sample = new Dictionary<int, List<int>>();
         }
 
-        public void Analyze(string source)
+        public void ParseData(string source, char delimiter, bool withHeader = false)
         {
             foreach (string line in File.ReadLines(source))
             {
-                var parts = line.Split(';');
-                int.TryParse(parts[0], out int key);
-                int.TryParse(parts[1], out int value);
+                var parts = line.Split(delimiter);
 
-                if (!network.ContainsKey(key))
-                    network[key] = new List<int>();
-
-                network[key].Add(value);
-            }
-
-            CalcMinMaxAndAvgForDegree();
-            CalcDegreeDistribution();
-            PopulateDistanceMatrix();
-            CalcAvgDistAvgAndClosenessCentrailty();
-            //CalcAverageClustering();
-        }
-
-        private void CalcMinMaxAndAvgForDegree()
-        {
-            int min = int.MaxValue, max = 0, sum = 0;
-
-            foreach (KeyValuePair<int, List<int>> kvp in network)
-            {
-                var numOfNeighbours = kvp.Value.Count;
-                sum += numOfNeighbours;
-
-                if (numOfNeighbours > max)
-                    max = numOfNeighbours;
-
-                if (numOfNeighbours < min)
-                    min = numOfNeighbours;
-            }
-
-            minDegree = min;
-            maxDegree = max;
-            avgDegree = sum / (float)network.Count;
-        }
-        private void CalcDegreeDistribution()
-        {
-            int networkLength = network.Count;
-
-            for (int i = 0; i <= maxDegree; i++)
-            {
-                int count = 0;
-
-                foreach (KeyValuePair<int, List<int>> kvp in network)
+                if (withHeader)
                 {
-                    if (i == kvp.Value.Count)
-                        count++;
+                    header.h1 = parts[0];
+                    header.h2 = parts[1];
+                    continue;
                 }
 
-                degreeDistributionsPercentage.Add(count / (float)networkLength);
-                degreeDistributionsNodes.Add(count);
+                int.TryParse(parts[0], out int nodeA);
+                int.TryParse(parts[1], out int nodeB);
+
+                if (nodeA == nodeB) continue;
+
+                if (!network.ContainsKey(nodeA))
+                    network[nodeA] = new List<int>();
+
+                network[nodeA].Add(nodeB);
+
+                if (!network.ContainsKey(nodeB))
+                    network[nodeB] = new List<int>();
+
+                network[nodeB].Add(nodeA);
             }
+
+            NetworkAnalyzer.Instance.AnalyzeNetwork(network, ref networkStats);
         }
-        private void PopulateDistanceMatrix()
+        public void DoSampling(EMethodType method, int sampleSize, int maxIterations, int startNode)
         {
-            foreach (KeyValuePair<int, List<int>> kvp in network)
+            Action<int, int, int> methodAction = null;
+
+            switch (method)
             {
-                // Breadth First Search
-                var startNode = kvp.Key;
-                var queue = new Queue<int>();
-                var distances = new Dictionary<int, int>();
-
-                foreach (KeyValuePair<int, List<int>> kvp2 in network)
-                    distances[kvp2.Key] = int.MaxValue;
-
-                distances[startNode] = 0;
-                queue.Enqueue(startNode);
-
-                while (queue.Count > 0)
-                {
-                    var key = queue.Dequeue();
-                    network.TryGetValue(key, out List<int> neighbours);
-
-                    foreach (int i in neighbours)
-                    {
-                        if (distances[i] == int.MaxValue)
-                        {
-                            distances[i] = distances[key] + 1;
-                            queue.Enqueue(i);
-                        }
-                    }
-                }
-
-                distanceMatrix.Add(distances.Values.ToList());
-            }
-        }
-        private void CalcAvgDistAvgAndClosenessCentrailty()
-        {
-            int max = 0;
-
-            var keys = network.Keys.ToList();
-            int length = keys.Count;
-
-            for (int i = 0; i < length; i++)
-            {
-                var row = distanceMatrix[i];
-                var avgDistance = row.Sum() / (float)(row.Count - 1);
-                nodeAndAvgDist[keys[i]] = avgDistance;
-                nodeAndClosenessCentrality[keys[i]] = 1 / avgDistance;
-
-                if (row.Max() > max)
-                    max = row.Max();
+                case EMethodType.Random_Walk:
+                    methodAction = DoRandomWalk;
+                    break;
+                case EMethodType.Random_Walk_Restart:
+                    methodAction = DoRandomWalkWithRestart;
+                    break;
+                case EMethodType.Random_Walk_Jump:
+                    methodAction = DoRandomWalkWithJump;
+                    break;
+                case EMethodType.Metropolis_Hastings_RW:
+                    methodAction = DoMetropolisHastingsRW;
+                    break;
             }
 
-            average = max;
+            var timer = new Stopwatch();
+            timer.Start();
+            methodAction?.Invoke(sampleSize, maxIterations, startNode);
+            timer.Stop();
+
+            sampleStats.TimeTaken = timer.Elapsed;
+            sampleStats.ElapsedAvailabile = true;
+
+            //NetworkAnalyzer.Instance.AnalyzeNetwork(sample, ref sampleStats);
         }
 
-        public void PrintToConsole()
+        private void DoRandomWalk(int sampleSize, int maxIterations, int startNode)
         {
-            Console.WriteLine("Min degree od node: " + minDegree);
-            Console.WriteLine("Max degree od node: " + maxDegree);
-            Console.WriteLine("Avg degree od node: " + avgDegree);
-            Console.WriteLine("Network diameter (avg): " + average);
-
-            Console.WriteLine();
-            Console.WriteLine("-----------------------");
-            Console.WriteLine();
-
-            //if (type == EDegreeDistributionType.percentage || type == EDegreeDistributionType.both)
-            //{
-            //    Console.WriteLine("Degree distributions in %: ");
-            //    Console.WriteLine();
-
-            //    int length = degreeDistributionsPercentage.Count;
-            //    for (int i = 0; i < length; i++)
-            //    {
-            //        Console.WriteLine("Degree {0} has {1}% of nodes.", i, degreeDistributionsPercentage[i] * 100);
-            //    }
-
-            //    Console.WriteLine();
-            //}
-
-            //if (type == EDegreeDistributionType.nodes || type == EDegreeDistributionType.both)
-            //{
-            //    Console.WriteLine("Degree distributions in nodes: ");
-            //    Console.WriteLine();
-
-            //    int length = degreeDistributionsNodes.Count;
-            //    for (int i = 0; i < length; i++)
-            //    {
-            //        Console.WriteLine("Degree {0} has {1} nodes.", i, degreeDistributionsNodes[i]);
-            //    }
-
-            //    Console.WriteLine();
-            //}
-
-            Console.WriteLine("-----------------------");
-            Console.WriteLine();
-            Console.WriteLine("Neighbours count:");
-            Console.WriteLine();
-
-            foreach (KeyValuePair<int, List<int>> kvp in network)
-            {
-                Console.WriteLine("Node {0} has {1} neighbours: ", kvp.Key, kvp.Value.Count);
-            }
-            Console.WriteLine();
-
-            Console.WriteLine("-----------------------");
-            Console.WriteLine();
-            Console.WriteLine("Average distances:");
-            Console.WriteLine();
-
-            foreach (KeyValuePair<int, float> kvp in nodeAndAvgDist)
-            {
-                Console.WriteLine("Node {0} has average distance: {1}", kvp.Key, kvp.Value);
-            }
-            Console.WriteLine();
-
-            Console.WriteLine("-----------------------");
-            Console.WriteLine();
-            Console.WriteLine("Closeness centralities:");
-            Console.WriteLine();
-
-            foreach (KeyValuePair<int, float> kvp in nodeAndClosenessCentrality)
-            {
-                Console.WriteLine("Node {0} has closeness centrality: {1}", kvp.Key, kvp.Value);
-            }
         }
-        public bool PrintToFile(string path)
+        private void DoRandomWalkWithRestart(int sampleSize, int maxIterations, int startNode)
         {
-            FileStream fileStream;
-            StreamWriter writer;
-            TextWriter oldOut = Console.Out;
 
-            try
-            {
-                fileStream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
-                writer = new StreamWriter(fileStream);
-            }
-            catch
-            {
-                MessageBox.Show("Cannot open file", "Fatal error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
+        }
+        private void DoRandomWalkWithJump(int sampleSize, int maxIterations, int startNode)
+        {
 
-            Console.SetOut(writer);
-            PrintToConsole();
-            Console.SetOut(oldOut);
+        }
+        private void DoMetropolisHastingsRW(int sampleSize, int maxIterations, int startNode)
+        {
 
-            writer.Close();
-            fileStream.Close();
+        }
 
-            return true;
+        //private void CalcDegreeDistribution()
+        //{
+        //    int networkLength = network.Count;
+
+        //    for (int i = 0; i <= maxDegree; i++)
+        //    {
+        //        int count = 0;
+
+        //        foreach (KeyValuePair<int, List<int>> kvp in network)
+        //        {
+        //            if (i == kvp.Value.Count)
+        //                count++;
+        //        }
+
+        //        degreeDistributionsPercentage.Add(count / (float)networkLength);
+        //        degreeDistributionsNodes.Add(count);
+        //    }
+        //}
+        //private void PopulateDistanceMatrix()
+        //{
+        //    foreach (KeyValuePair<int, List<int>> kvp in network)
+        //    {
+        //        // Breadth First Search
+        //        var startNode = kvp.Key;
+        //        var queue = new Queue<int>();
+        //        var distances = new Dictionary<int, int>();
+
+        //        foreach (KeyValuePair<int, List<int>> kvp2 in network)
+        //            distances[kvp2.Key] = int.MaxValue;
+
+        //        distances[startNode] = 0;
+        //        queue.Enqueue(startNode);
+
+        //        while (queue.Count > 0)
+        //        {
+        //            var key = queue.Dequeue();
+        //            network.TryGetValue(key, out List<int> neighbours);
+
+        //            foreach (int i in neighbours)
+        //            {
+        //                if (distances[i] == int.MaxValue)
+        //                {
+        //                    distances[i] = distances[key] + 1;
+        //                    queue.Enqueue(i);
+        //                }
+        //            }
+        //        }
+
+        //        distanceMatrix.Add(distances.Values.ToList());
+        //    }
+        //}
+        //private void CalcAvgDistAvgAndClosenessCentrailty()
+        //{
+        //    int max = 0;
+
+        //    var keys = network.Keys.ToList();
+        //    int length = keys.Count;
+
+        //    for (int i = 0; i < length; i++)
+        //    {
+        //        var row = distanceMatrix[i];
+        //        var avgDistance = row.Sum() / (float)(row.Count - 1);
+        //        nodeAndAvgDist[keys[i]] = avgDistance;
+        //        nodeAndClosenessCentrality[keys[i]] = 1 / avgDistance;
+
+        //        if (row.Max() > max)
+        //            max = row.Max();
+        //    }
+
+        //    average = max;
+        //}
+
+        public void PrintStatsToConsole()
+        {
+            Console.WriteLine("-----------------------------------");
+            Console.WriteLine("Network stats:");
+            Console.WriteLine("-----------------------------------");
+
+            Console.WriteLine(networkStats);
+
+            Console.WriteLine("-----------------------------------");
+            Console.WriteLine("Sample stats:");
+            Console.WriteLine("-----------------------------------");
+
+            Console.WriteLine(sampleStats);
+            Console.WriteLine("-----------------------------------");
+        }
+        public void PrintSampleToConsole()
+        {
+            throw new NotImplementedException();
         }
     }
 }

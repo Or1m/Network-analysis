@@ -1,4 +1,5 @@
 ﻿using MADProject.Enums;
+using System;
 using System.IO;
 using System.Windows.Forms;
 
@@ -11,7 +12,7 @@ namespace MADProject
        
         public static void OnChangePath(TextBox target, string name, string extension, EFileType fileType, bool saveFile = true)
         {
-            FileDialog dialog = null;
+            FileDialog dialog;
 
             if (saveFile)
                 dialog = new SaveFileDialog();
@@ -28,6 +29,31 @@ namespace MADProject
 
             if (dialog.ShowDialog() == DialogResult.OK)
                 target.Text = dialog.FileName;
+        }
+
+        public static void RedirectConsoleToFile(string path, Action consoleOutput)
+        {
+            FileStream fileStream;
+            StreamWriter writer;
+            TextWriter oldOut = Console.Out;
+
+            try
+            {
+                fileStream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);
+                writer = new StreamWriter(fileStream);
+            }
+            catch
+            {
+                MessageBox.Show("Cannot open file", "Fatal error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            Console.SetOut(writer);
+            consoleOutput?.Invoke();
+            Console.SetOut(oldOut);
+
+            writer.Close();
+            fileStream.Close();
         }
     }
 }

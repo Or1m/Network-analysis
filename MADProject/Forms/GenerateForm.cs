@@ -42,19 +42,19 @@ namespace MADProject
         }
         private void RunButt_Click(object sender, System.EventArgs e)
         {
-            int numOfNodes = int.Parse(NumOfNodesTextBox.Text);
-            int numOfNewEdgesPerNode = int.Parse(MTextBox.Text);
+            //int numOfNodes = int.Parse(NumOfNodesTextBox.Text);
+            //int numOfNewEdgesPerNode = int.Parse(MTextBox.Text);
 
-            NetworkGenerator generator = new NetworkGenerator();
-            generator.Generate(numOfNodes, numOfNewEdgesPerNode);
+            //NetworkGenerator generator = new NetworkGenerator();
+            //generator.Generate(numOfNodes, numOfNewEdgesPerNode);
             
-            if (FileRadioButt.Checked)
-                generator.PrintToFile(PathTextBox.Text);
-            else
-                generator.PrintToConsole();
+            //if (FileRadioButt.Checked)
+            //    generator.PrintToFile(PathTextBox.Text);
+            //else
+            //    generator.PrintToConsole();
 
 
-            Close();
+            //Close();
         }
 
         private void FileRadioButt_CheckedChanged(object sender, System.EventArgs e)
