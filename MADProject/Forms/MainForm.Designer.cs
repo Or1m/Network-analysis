@@ -57,6 +57,8 @@ namespace MADProject
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.DelimTextBox = new System.Windows.Forms.TextBox();
+            this.probTextBox = new System.Windows.Forms.TextBox();
+            this.probLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,9 +66,9 @@ namespace MADProject
             // 
             this.groupBox1.Controls.Add(this.ConsoleRadioButt);
             this.groupBox1.Controls.Add(this.FileRadioButt);
-            this.groupBox1.Location = new System.Drawing.Point(428, 148);
+            this.groupBox1.Location = new System.Drawing.Point(428, 151);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(172, 68);
+            this.groupBox1.Size = new System.Drawing.Size(172, 61);
             this.groupBox1.TabIndex = 29;
             this.groupBox1.TabStop = false;
             // 
@@ -132,10 +134,10 @@ namespace MADProject
             // SampleButt
             // 
             this.SampleButt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.SampleButt.ForeColor = System.Drawing.Color.Red;
-            this.SampleButt.Location = new System.Drawing.Point(14, 272);
+            this.SampleButt.ForeColor = System.Drawing.Color.ForestGreen;
+            this.SampleButt.Location = new System.Drawing.Point(12, 302);
             this.SampleButt.Name = "SampleButt";
-            this.SampleButt.Size = new System.Drawing.Size(172, 27);
+            this.SampleButt.Size = new System.Drawing.Size(267, 40);
             this.SampleButt.TabIndex = 23;
             this.SampleButt.Text = "Create sample";
             this.SampleButt.UseVisualStyleBackColor = true;
@@ -199,9 +201,9 @@ namespace MADProject
             // 
             this.PrintStatsButt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.PrintStatsButt.ForeColor = System.Drawing.Color.Black;
-            this.PrintStatsButt.Location = new System.Drawing.Point(428, 239);
+            this.PrintStatsButt.Location = new System.Drawing.Point(428, 249);
             this.PrintStatsButt.Name = "PrintStatsButt";
-            this.PrintStatsButt.Size = new System.Drawing.Size(172, 27);
+            this.PrintStatsButt.Size = new System.Drawing.Size(172, 43);
             this.PrintStatsButt.TabIndex = 32;
             this.PrintStatsButt.Text = "Print statistics";
             this.PrintStatsButt.UseVisualStyleBackColor = true;
@@ -211,9 +213,9 @@ namespace MADProject
             // 
             this.PrintSampleButt.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.PrintSampleButt.ForeColor = System.Drawing.Color.Black;
-            this.PrintSampleButt.Location = new System.Drawing.Point(428, 272);
+            this.PrintSampleButt.Location = new System.Drawing.Point(428, 299);
             this.PrintSampleButt.Name = "PrintSampleButt";
-            this.PrintSampleButt.Size = new System.Drawing.Size(172, 27);
+            this.PrintSampleButt.Size = new System.Drawing.Size(172, 43);
             this.PrintSampleButt.TabIndex = 33;
             this.PrintSampleButt.Text = "Print sample";
             this.PrintSampleButt.UseVisualStyleBackColor = true;
@@ -247,6 +249,7 @@ namespace MADProject
             this.MethodComboBox.Name = "MethodComboBox";
             this.MethodComboBox.Size = new System.Drawing.Size(172, 21);
             this.MethodComboBox.TabIndex = 36;
+            this.MethodComboBox.SelectionChangeCommitted += new System.EventHandler(this.MethodComboBox_SelectionChangeCommitted);
             // 
             // SizeBox
             // 
@@ -262,7 +265,7 @@ namespace MADProject
             this.MaxIterBox.Name = "MaxIterBox";
             this.MaxIterBox.Size = new System.Drawing.Size(172, 20);
             this.MaxIterBox.TabIndex = 38;
-            this.MaxIterBox.Text = "1000";
+            this.MaxIterBox.Text = "10000";
             // 
             // StartBox
             // 
@@ -270,7 +273,7 @@ namespace MADProject
             this.StartBox.Name = "StartBox";
             this.StartBox.Size = new System.Drawing.Size(172, 20);
             this.StartBox.TabIndex = 39;
-            this.StartBox.Text = "0";
+            this.StartBox.Text = "1";
             // 
             // RNDBox
             // 
@@ -329,12 +332,33 @@ namespace MADProject
             this.DelimTextBox.TabIndex = 45;
             this.DelimTextBox.Text = ";";
             // 
+            // probTextBox
+            // 
+            this.probTextBox.Location = new System.Drawing.Point(107, 272);
+            this.probTextBox.Name = "probTextBox";
+            this.probTextBox.Size = new System.Drawing.Size(172, 20);
+            this.probTextBox.TabIndex = 46;
+            this.probTextBox.Text = "0.15";
+            this.probTextBox.Visible = false;
+            // 
+            // probLabel
+            // 
+            this.probLabel.AutoSize = true;
+            this.probLabel.Location = new System.Drawing.Point(13, 275);
+            this.probLabel.Name = "probLabel";
+            this.probLabel.Size = new System.Drawing.Size(54, 13);
+            this.probLabel.TabIndex = 47;
+            this.probLabel.Text = "probability";
+            this.probLabel.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(612, 310);
+            this.ClientSize = new System.Drawing.Size(612, 354);
+            this.Controls.Add(this.probLabel);
+            this.Controls.Add(this.probTextBox);
             this.Controls.Add(this.DelimTextBox);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.SamplePathButt);
@@ -402,6 +426,8 @@ namespace MADProject
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox DelimTextBox;
+        private System.Windows.Forms.TextBox probTextBox;
+        private System.Windows.Forms.Label probLabel;
     }
 }
 

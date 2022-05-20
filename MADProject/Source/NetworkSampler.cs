@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
-using System.Windows.Forms;
+using System.Linq;
 
 namespace MADProject
 {
@@ -11,6 +11,7 @@ namespace MADProject
     {
         private readonly Dictionary<int, List<int>> network;
         private readonly Dictionary<int, List<int>> sample;
+
         private Stats networkStats, sampleStats;
         private (string h1, string h2) header;
 
@@ -51,9 +52,9 @@ namespace MADProject
 
             NetworkAnalyzer.Instance.AnalyzeNetwork(network, ref networkStats);
         }
-        public void DoSampling(EMethodType method, int sampleSize, int maxIterations, int startNode)
+        public void DoSampling(EMethodType method, int sampleSize, int maxIterations, int startNode, float p)
         {
-            Action<int, int, int> methodAction = null;
+            Action<int, int, int, float> methodAction = null;
 
             switch (method)
             {
@@ -73,102 +74,14 @@ namespace MADProject
 
             var timer = new Stopwatch();
             timer.Start();
-            methodAction?.Invoke(sampleSize, maxIterations, startNode);
+            methodAction?.Invoke(sampleSize, maxIterations, startNode, p);
             timer.Stop();
 
             sampleStats.TimeTaken = timer.Elapsed;
             sampleStats.ElapsedAvailabile = true;
 
-            //NetworkAnalyzer.Instance.AnalyzeNetwork(sample, ref sampleStats);
+            NetworkAnalyzer.Instance.AnalyzeNetwork(sample, ref sampleStats);
         }
-
-        private void DoRandomWalk(int sampleSize, int maxIterations, int startNode)
-        {
-        }
-        private void DoRandomWalkWithRestart(int sampleSize, int maxIterations, int startNode)
-        {
-
-        }
-        private void DoRandomWalkWithJump(int sampleSize, int maxIterations, int startNode)
-        {
-
-        }
-        private void DoMetropolisHastingsRW(int sampleSize, int maxIterations, int startNode)
-        {
-
-        }
-
-        //private void CalcDegreeDistribution()
-        //{
-        //    int networkLength = network.Count;
-
-        //    for (int i = 0; i <= maxDegree; i++)
-        //    {
-        //        int count = 0;
-
-        //        foreach (KeyValuePair<int, List<int>> kvp in network)
-        //        {
-        //            if (i == kvp.Value.Count)
-        //                count++;
-        //        }
-
-        //        degreeDistributionsPercentage.Add(count / (float)networkLength);
-        //        degreeDistributionsNodes.Add(count);
-        //    }
-        //}
-        //private void PopulateDistanceMatrix()
-        //{
-        //    foreach (KeyValuePair<int, List<int>> kvp in network)
-        //    {
-        //        // Breadth First Search
-        //        var startNode = kvp.Key;
-        //        var queue = new Queue<int>();
-        //        var distances = new Dictionary<int, int>();
-
-        //        foreach (KeyValuePair<int, List<int>> kvp2 in network)
-        //            distances[kvp2.Key] = int.MaxValue;
-
-        //        distances[startNode] = 0;
-        //        queue.Enqueue(startNode);
-
-        //        while (queue.Count > 0)
-        //        {
-        //            var key = queue.Dequeue();
-        //            network.TryGetValue(key, out List<int> neighbours);
-
-        //            foreach (int i in neighbours)
-        //            {
-        //                if (distances[i] == int.MaxValue)
-        //                {
-        //                    distances[i] = distances[key] + 1;
-        //                    queue.Enqueue(i);
-        //                }
-        //            }
-        //        }
-
-        //        distanceMatrix.Add(distances.Values.ToList());
-        //    }
-        //}
-        //private void CalcAvgDistAvgAndClosenessCentrailty()
-        //{
-        //    int max = 0;
-
-        //    var keys = network.Keys.ToList();
-        //    int length = keys.Count;
-
-        //    for (int i = 0; i < length; i++)
-        //    {
-        //        var row = distanceMatrix[i];
-        //        var avgDistance = row.Sum() / (float)(row.Count - 1);
-        //        nodeAndAvgDist[keys[i]] = avgDistance;
-        //        nodeAndClosenessCentrality[keys[i]] = 1 / avgDistance;
-
-        //        if (row.Max() > max)
-        //            max = row.Max();
-        //    }
-
-        //    average = max;
-        //}
 
         public void PrintStatsToConsole()
         {
@@ -187,7 +100,157 @@ namespace MADProject
         }
         public void PrintSampleToConsole()
         {
-            throw new NotImplementedException();
+            //Console.WriteLine("Source;Target");
+
+            foreach (KeyValuePair<int, List<int>> kvp in sample)
+            {
+                foreach (var neighbour in kvp.Value)
+                {
+                    Console.WriteLine($"{kvp.Key};{neighbour}");
+                }
+            }
+        }
+
+        private void DoRandomWalk(int sampleSize, int maxIterations, int startNode, float p)
+        {
+            var random = new Random();
+            int current = SelectCurrntNode(startNode, random);
+
+            sample[current] = new List<int>();
+            List<int> sampleKeys = new List<int>() { current };
+
+            int iterator = 0;
+            while (sample.Count < sampleSize && iterator < maxIterations)
+            {
+                var neighbours = network[current];
+                var picked = neighbours[random.Next(neighbours.Count)];
+
+                if (!sampleKeys.Contains(picked))
+                {
+                    sampleKeys.Add(picked);
+                    sample[picked] = new List<int>();
+                }
+
+                current = picked;
+                iterator++;
+            }
+
+            AddEdgesFromNetworkToSample(sampleKeys);
+        }
+        private void DoRandomWalkWithRestart(int sampleSize, int maxIterations, int startNode, float p)
+        {
+            var random = new Random();
+            int current = SelectCurrntNode(startNode, random);
+            int start = current;
+
+            sample[current] = new List<int>();
+            List<int> sampleKeys = new List<int>() { current };
+
+            int iterator = 0;
+            while (sample.Count < sampleSize && iterator < maxIterations)
+            {
+                if (random.NextDouble() < p)
+                    current = start;
+                
+                var neighbours = network[current];
+                var picked = neighbours[random.Next(neighbours.Count)];
+
+                if (!sampleKeys.Contains(picked))
+                {
+                    sampleKeys.Add(picked);
+                    sample[picked] = new List<int>();
+                }
+
+                current = picked;
+                iterator++;
+            }
+
+            AddEdgesFromNetworkToSample(sampleKeys);
+        }
+        private void DoRandomWalkWithJump(int sampleSize, int maxIterations, int startNode, float p)
+        {
+            var random = new Random();
+            int current = SelectCurrntNode(startNode, random);
+
+            sample[current] = new List<int>();
+            List<int> sampleKeys = new List<int>() { current };
+            List<int> networkKeys = network.Keys.ToList();
+
+            int iterator = 0;
+            while (sample.Count < sampleSize && iterator < maxIterations)
+            {
+                if (random.NextDouble() < p)
+                    current = networkKeys[random.Next(networkKeys.Count)];
+
+                var neighbours = network[current];
+                var picked = neighbours[random.Next(neighbours.Count)];
+
+                if (!sampleKeys.Contains(picked))
+                {
+                    sampleKeys.Add(picked);
+                    sample[picked] = new List<int>();
+                }
+
+                current = picked;
+                iterator++;
+            }
+
+            AddEdgesFromNetworkToSample(sampleKeys);
+        }
+        private void DoMetropolisHastingsRW(int sampleSize, int maxIterations, int startNode, float p)
+        {
+            var random = new Random();
+            int current = SelectCurrntNode(startNode, random);
+
+            sample[current] = new List<int>();
+            List<int> sampleKeys = new List<int>() { current };
+
+            int iterator = 0;
+            while (sample.Count < sampleSize && iterator < maxIterations)
+            {
+                var neighbours = network[current];
+                var picked = neighbours[random.Next(neighbours.Count)];
+
+                if (!sampleKeys.Contains(picked))
+                {
+                    var probability = random.NextDouble();
+
+                    if (probability <= network[current].Count / network[picked].Count)
+                    {
+                        sampleKeys.Add(picked);
+                        sample[picked] = new List<int>();
+                    }
+                }
+
+                current = picked;
+                iterator++;
+            }
+
+            AddEdgesFromNetworkToSample(sampleKeys);
+        }
+
+        private int SelectCurrntNode(int startNode, Random random)
+        {
+            int current = startNode;
+
+            if (current == -1)
+            {
+                var keys = network.Keys.ToList();
+                current = keys[random.Next(keys.Count)];
+            }
+
+            return current;
+        }
+        private void AddEdgesFromNetworkToSample(List<int> sampleKeys)
+        {
+            foreach (var key in sampleKeys)
+            {
+                foreach (var neighbour in network[key])
+                {
+                    if (sampleKeys.Contains(neighbour))
+                        sample[key].Add(neighbour);
+                }
+            }
         }
     }
 }

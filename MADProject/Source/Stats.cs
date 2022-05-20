@@ -20,7 +20,7 @@ namespace MADProject
 
         public override string ToString()
         {
-            string elapsed = ElapsedAvailabile ? "\nElapsed time:" + TimeTaken.ToString(@"m\:ss\.fff") : "";
+            string elapsed = ElapsedAvailabile ? "\nElapsed time:" + TimeTaken.TotalMilliseconds : "";
 
             return
                 $"Num of nodes:                 {NumOfNodes}\n" +
