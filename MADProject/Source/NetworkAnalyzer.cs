@@ -125,7 +125,31 @@ namespace MADProject
                     numOfTriangles++;
             }
 
-            stats.AverageClusteringCoefficient = numOfTriangles / (float)trials; //TODO checkni
+            stats.AverageClusteringCoefficient = numOfTriangles / (float)trials;
+
+            //float result = 0;
+            //foreach (KeyValuePair<int, List<int>> kvp in network)
+            //{
+            //    result += CalcLocalClusteringCoefficient(kvp.Key, kvp.Value, network);
+            //}
+
+            //stats.AverageClusteringCoefficient = result / network.Keys.Count;
+        }
+
+        private float CalcLocalClusteringCoefficient(List<int> edges, Dictionary<int, List<int>> network)
+        {
+            int neighboursLinks = 0;
+
+            for (int i = 0; i < edges.Count; i++)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    if (network[edges[i]].Contains(edges[j]))
+                        neighboursLinks++;
+                }
+            }
+            
+            return edges.Count > 1 ? (2 * neighboursLinks / (edges.Count * (edges.Count - 1))) : 0;
         }
     }
 }

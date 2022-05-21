@@ -37,6 +37,9 @@ namespace MADProject
             StreamWriter writer;
             TextWriter oldOut = Console.Out;
 
+            if (File.Exists(path))
+                File.Delete(path);
+
             try
             {
                 fileStream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write);

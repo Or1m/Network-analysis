@@ -42,12 +42,15 @@ namespace MADProject
                 if (!network.ContainsKey(nodeA))
                     network[nodeA] = new List<int>();
 
-                network[nodeA].Add(nodeB);
+                if (!network[nodeA].Contains(nodeB))
+                    network[nodeA].Add(nodeB);
 
+                // Second direction
                 if (!network.ContainsKey(nodeB))
                     network[nodeB] = new List<int>();
 
-                network[nodeB].Add(nodeA);
+                if (!network[nodeB].Contains(nodeA))
+                    network[nodeB].Add(nodeA);
             }
 
             NetworkAnalyzer.Instance.AnalyzeNetwork(network, ref networkStats);
@@ -247,7 +250,7 @@ namespace MADProject
             {
                 foreach (var neighbour in network[key])
                 {
-                    if (sampleKeys.Contains(neighbour))
+                    if (sampleKeys.Contains(neighbour) && !sample[key].Contains(neighbour))
                         sample[key].Add(neighbour);
                 }
             }
